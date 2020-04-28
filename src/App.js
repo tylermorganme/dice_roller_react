@@ -1,24 +1,71 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+const rollDice = (sides) => {
+  return Math.floor(Math.random() * sides + 1);
+}
+
+const Dice = ({ sides }) => {
+  const [rollValue, setRollValue] = useState(null)
+
+  const handleClick = () => {
+    setRollValue(rollDice(sides))
+  }
+
+  return (
+    <div class="diceArea">
+      <button
+        id={"d" + sides}
+        onClick={handleClick}
+      >
+        {`Roll d${sides}`}
+      </button>
+      <p id={"d" + sides + "Result"}>{rollValue}</p>
+    </div>
+  )
+}
+
+const dValues = [20, 12, 10, 8, 6, 4]
+
+const headerImageSource = `https://cdn.clipart.email/daba945fa7ca50ca28460feb716e3fbe_d20-system-dungeons-dragons-set-dice-role-playing-game-white-_800-905.jpeg`
+
+const DiceHeading = () => {
+  return (
+    <h2>
+      Dice Roller
+      <a
+        class="moveimage"
+        href="https://www.clipart.email/download/18402559.html"
+        title="Image from clipart.email">
+        <img
+          src={headerImageSource}
+          width="40" class="rounded" alt="D20 Dice D20 Clipart"
+        />
+      </a>
+    </h2>
+  )
+}
+
+const DiceContainer = () => {
+  return (
+    <div class="diceContainer">
+      {dValues.map(dValue => {
+        return (
+          <Dice sides={dValue} key={dValue}/>
+        )
+      })}
+    </div>
+  )
+}
+
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <body>
+        <DiceHeading />
+        <DiceContainer />
+      </body>
     </div>
   );
 }
